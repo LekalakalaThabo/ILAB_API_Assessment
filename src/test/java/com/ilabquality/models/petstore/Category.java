@@ -1,19 +1,21 @@
 package com.ilabquality.models.petstore;
 
+import java.math.BigInteger;
+
 public class Category {
-    private int id;
+    private BigInteger id;
     private String name;
 
-    public Category(int id, String name) {
+    public Category(BigInteger id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

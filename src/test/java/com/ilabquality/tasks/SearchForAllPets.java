@@ -2,18 +2,18 @@ package com.ilabquality.tasks;
 
 import com.ilabquality.models.petstore.Pet;
 import net.serenitybdd.core.steps.Instrumented;
-import net.serenitybdd.rest.Ensure;
 import net.serenitybdd.rest.SerenityRest;
 import net.serenitybdd.screenplay.Actor;
-import net.serenitybdd.screenplay.Performable;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.rest.interactions.Get;
 import net.thucydides.core.annotations.Step;
 import org.junit.Assert;
 
+import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SearchForAllPets implements Task {
     private String resourceUrl;
@@ -34,30 +34,27 @@ public class SearchForAllPets implements Task {
         actor.attemptsTo(
                 Get.resource(resourceUrl).with(request -> request.queryParam("status",status) )
         );
-/*
-        boolean found = false;
-        List<Pet> petObjects  = SerenityRest.lastResponse().jsonPath().getList("",Pet.class);
 
+        AtomicBoolean found = new AtomicBoolean(false);
+        List<Pet> petObjects  = SerenityRest.lastResponse().jsonPath().getList("",Pet.class);
         Iterator<Pet> petListIterator =  petObjects.iterator();
 
-        while(petListIterator.hasNext() && found == false){
-            System.out.println("Object: "+petListIterator.next().toString());
+        while(petListIterator.hasNext() && found.get() == false){
+            Pet pet = petListIterator.next();
 
-            if(petListIterator.next().getCategory().getId()==12
-                    && petListIterator.next().getName().equalsIgnoreCase("doggie")){
-                found = true;
-            }
-            //System.out.println("Found: "+ found+" DogName: " + petListIterator.next().getName() +" CatID :" +petListIterator.next().getId());
+            Optional.of(pet).map(Pet::getCategory).ifPresent(category -> {
+
+                if(category.getId().equals(BigInteger.valueOf(12)) && pet.getName().equalsIgnoreCase("doggie")){
+                    found.set(true);
+                   }
+            } );
+
         }
 
-        if(found){
-            Assert.assertTrue("Pet named doggy with category ID is on the list",found);
-        }else
-            Assert.assertTrue("Pet named doggy with category ID is not on the list",found);
-
-*/
-
-
+       if(found.get() == true){
+            Assert.assertTrue("Pet named doggy with category ID is on the list", found.get());
+       }else
+            Assert.assertTrue("Pet named doggy with category ID is not on the list", found.get());
 
     }
 }

@@ -1,10 +1,11 @@
 package com.ilabquality.models.petstore;
 
+import java.math.BigInteger;
 import java.util.Collection;
 
 
 public class Pet {
-    private Long id;
+    private BigInteger id;
     private Category category;
     private String name;
     private Collection<String> photoUrls;
@@ -20,11 +21,11 @@ public class Pet {
         this.status = status;
     }
 
-    public long getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

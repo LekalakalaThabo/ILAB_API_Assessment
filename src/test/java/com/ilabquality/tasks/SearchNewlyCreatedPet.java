@@ -2,20 +2,21 @@ package com.ilabquality.tasks;
 
 import net.serenitybdd.core.steps.Instrumented;
 import net.serenitybdd.screenplay.Actor;
-import net.serenitybdd.screenplay.Performable;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.rest.interactions.Get;
 import net.thucydides.core.annotations.Step;
 
-public class SearchNewlyCreatedPet implements Task {
-    private long petID;
+import java.math.BigInteger;
 
-    public SearchNewlyCreatedPet(Long petID) {
+public class SearchNewlyCreatedPet implements Task {
+    private BigInteger petID;
+
+    public SearchNewlyCreatedPet(BigInteger petID) {
         this.petID = petID;
     }
 
 
-    public static SearchNewlyCreatedPet byID(long petID) {
+    public static SearchNewlyCreatedPet byID(BigInteger petID) {
         return Instrumented.instanceOf(SearchNewlyCreatedPet.class).withProperties(petID);
     }
 
